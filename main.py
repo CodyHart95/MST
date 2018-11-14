@@ -15,6 +15,7 @@ def minKey(G,key,mstSet):
              
      return min_key
 
+#To make this work for the rest of the inputs remove inner for loop.
 def prims(G,vertex):
     print(G)
     mstSet = []
