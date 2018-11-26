@@ -5,59 +5,28 @@ Drew Waszak
 '''
 
 import sys
-def minKey(G,key,mstSet):
+def minKey(G,mstSet):
      min_value = sys.maxsize
      min_key = -1
-     for v in range(len(G[key])):
-         if G[key][v][1] < min_value and G[key][v][0] not in mstSet:
-             min_value = G[key][v][1]
-             min_key = v
+     for i in mstSet:
+         for v in G[i]:       
+            if v[1] < min_value and v[0] not in mstSet:
+                min_value = v[1]
+                min_key = v[0]
              
-     return min_key
+     return min_key,min_value
 
-#To make this work for the rest of the inputs remove inner for loop.
-def prims(G,vertex):
-    print(G)
-    '''
-    V = set(G.keys())
-    X = {vertex}
-    T = set()
-
-    while X != V:
-         print(X)
-         print(V)
-         for v in V:
-              #for u in X:
-              min_key = minKey(G, v, X)
-              if min_key > -1:
-                  e = G[v][min_key]
-                  #print(e)
-                  T.add(e)
-                        #print(v)
-              X.add(v)
-              print(v, min_key, G[v][min_key])
-              #print(X)
-    '''      
+def prims(G,vertex):     
     mstSet = []
     mstSet.append(vertex)
-    edge_lengths = [0 for i in range(0,len(G)+1)]
+    edge_lengths = 0
+    i = 0
+    while len(mstSet) < len(G):
+        min_key,min_value = minKey(G,mstSet)
+        mstSet.append(min_key)
+        edge_lengths += min_value
 
-    for v in mstSet:
-        #for edge in G[v]:
-        min_key = minKey(G,v,mstSet)
-        if min_key > -1:
-            mstSet.append(G[v][min_key][0])
-            edge_lengths[G[v][min_key][0]] = (G[v][min_key][1])
-        #print(edge_lengths)
-        print(mstSet)
-    
-    mst_length = 0
-    
-
-    for i in edge_lengths:
-        mst_length += i
-    return mst_length
-    
+    return edge_lengths
 
 def add_edge(G, v1, v2, ce):
     if v1 in G:
